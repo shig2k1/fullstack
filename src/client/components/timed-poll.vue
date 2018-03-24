@@ -23,13 +23,13 @@ export default {
   },
 
   mounted(){
-    this.timer = setInterval(()=>{
-      this.loadData()
-    }, 1000)
+    // this.timer = setInterval(()=>{
+    //   this.loadData()
+    // }, 1000)
   },
 
   beforeDestroy(){
-    clearInterval(this.timer)
+    // clearInterval(this.timer)
   }
 }
 </script>

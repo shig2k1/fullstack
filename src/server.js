@@ -9,6 +9,29 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 const compiler = webpack(config)
 const app = express()
 
+
+// web-server
+const _server = http.createServer(app)
+global.io = require('socket.io')(_server.listen(3000, 'localhost', (err)=>{
+  if(err) throw err;
+  console.log('listening...')
+}));
+
+// socket.io
+//const io = server)
+
+//app.set('socketio', io)
+
+
+// socket.io
+io.sockets.on('connection', socket => {
+  console.log('a user connected')
+
+  socket.on('disconnect', ()=>{
+    console.log('a user disconnected')
+  })
+})
+
 // serve hot-reloading bundle to the client
 app.use(webpackDevMiddleware(compiler, {
   noInfo: true,
@@ -42,12 +65,4 @@ compiler.plugin('done', ()=>{
   Object.keys(require.cache).forEach(id=>{
     if (/[\/\\]client[\/\\]/.test(id)) delete require.cache[id]
   })
-})
-
-const server = http.createServer(app)
-server.listen(3000, 'localhost', (err)=>{
-  if(err) throw err;
-
-  const addr = server.address()
-  console.log('listening...')
 })

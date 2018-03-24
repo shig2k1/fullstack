@@ -3,6 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 
 export default {
+    mode: 'development',
     devtool: '#eval-source-map',
     entry: [
         'webpack-hot-middleware/client',
