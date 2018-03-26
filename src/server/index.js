@@ -1,16 +1,32 @@
 import express from 'express'
+import bodyParser from 'body-parser'
 
 const app = express.Router()
+// parse application/json (without this, incoming POSTs cannot be JSON)
+app.use(bodyParser.json());
 
-import api from './api'
+import modules from './modules'
 
-app.get('/api', (req, res)=>{
-    res.send('Hi there Gem - hee!')
-})
+// all players
+global.players = {};
 
-app.post('/api/data', api)
+// all games
+global.games = {};
 
-//app.get('/other', api)
+import { create_player } from './modules/player'
+import { list_games, create_game, join_game } from './modules/game'
+
+// create a new player
+app.post('/api/player/create', create_player)
+
+// create new game
+app.post('/api/game/create', create_game)
+
+// join existing game
+app.post('/api/game/join/:id', join_game)
+
+// list joinable games
+app.get('/api/game/list', list_games)
+
 
 module.exports = app;
-

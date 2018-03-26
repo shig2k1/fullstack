@@ -20,6 +20,7 @@ global.io = require('socket.io')(_server.listen(3000, 'localhost', (err)=>{
 // socket.io
 //const io = server)
 
+
 //app.set('socketio', io)
 
 
