@@ -28,5 +28,4 @@ app.post('/api/game/join/:id', join_game)
 // list joinable games
 app.get('/api/game/list', list_games)
 
-
 module.exports = app;

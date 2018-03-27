@@ -6,32 +6,41 @@ import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 
+export const LOBBY_EVENTS = {
+  SERVER_NEW_MESSAGE: 'SERVER_NEW_MESSAGE',
+  CLIENT_SENT_MESSAGE: 'CLIENT_SENT_MESSAGE'
+}
+
 const compiler = webpack(config)
 const app = express()
-
 
 // web-server
 const _server = http.createServer(app)
 global.io = require('socket.io')(_server.listen(3000, 'localhost', (err)=>{
   if(err) throw err;
   console.log('listening...')
-}));
-
-// socket.io
-//const io = server)
-
-
-//app.set('socketio', io)
-
+}))
 
 // socket.io
 io.sockets.on('connection', socket => {
   console.log('a user connected')
 
+  // client has emitted message to server
+  socket.on(LOBBY_EVENTS.CLIENT_SENT_MESSAGE, ({ message, gameId })=>{
+    // broadcast to 
+    io.emit(`game-${gameId}`, {
+      event: LOBBY_EVENTS.SERVER_NEW_MESSAGE,
+      payload: {
+        message
+      }
+    })
+  })
+
   socket.on('disconnect', ()=>{
     console.log('a user disconnected')
   })
 })
+
 
 // serve hot-reloading bundle to the client
 app.use(webpackDevMiddleware(compiler, {
@@ -45,6 +54,7 @@ app.use(webpackHotMiddleware(compiler))
 app.use(function(req, res, next){
   require('./server/index.js')(req, res, next)
 })
+
 
 // anything else gets passed to the client app's server render
 
