@@ -3,11 +3,22 @@
     div(slot="top") {{ game.name }}
 
     div(slot="middle")
+
+      // output the game canvas
+      div(v-if="game.tilemap")
+        div.row(v-for="(row, i) in game.tilemap",
+        :key="`row_${i}`")
+          tile(v-for="(tile, j) in row",
+          :key="`${i}:${j}`")
+      
+      
+      
       div(v-if="players.length < 2") Waiting for players
     
       div players
       ul
-        li(v-for="player in players") {{ player }}
+        li(v-for="player in players",
+        :key="JSON.stringify(player)") {{ player }}
 
       v-text-field(type="text", 
             v-model="message",
@@ -28,6 +39,7 @@
 
 <script>
 import pageLayout from "./page-layout.vue"
+import tile from './tile.vue'
 
 // state action
 import { ACTIONS } from "../store/modules/game.store"
@@ -37,7 +49,8 @@ import { LOBBY_EVENTS } from '../../enums/socketio-events'
 
 export default {
   components: {
-    pageLayout
+    pageLayout,
+    tile
   },
 
   data: () => ({
