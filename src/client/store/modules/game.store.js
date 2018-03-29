@@ -11,13 +11,17 @@ export const state = {
 export const ACTIONS = {
   CREATE_GAME: 'CREATE_GAME',
   LOAD_GAMES: 'LOAD_GAMES',
-  JOIN_GAME: 'JOIN_GAME'
+  JOIN_GAME: 'JOIN_GAME',
+  UPDATE_MAP: 'UPDATE_MAP'
 }
 
 export const MUTATIONS = {
   UPDATE_GAMES: 'UPDATE_GAMES',
-  JOIN_GAME: 'JOIN_GAME'
+  JOIN_GAME: 'JOIN_GAME',
+  REPLACE_MAP: 'REPLACE_MAP'
 }
+
+
 
 export const actions = {
   [ACTIONS.CREATE_GAME]({ state, commit }, { name, rounds}){
@@ -56,15 +60,28 @@ export const actions = {
       },
       err=>rej(err))
     })
+  },
+
+  [ACTIONS.UPDATE_MAP]({ state, commit }, { gameId, tilemap } ){
+    console.log('do it :p')
+    commit(MUTATIONS.REPLACE_MAP, { gameId, tilemap })
   }
 }
 
 export const mutations = {
- [MUTATIONS.UPDATE_GAMES](state, games){
-   state.availableGames = { ...games }
- },
+  [MUTATIONS.UPDATE_GAMES](state, games){
+    state.availableGames = { ...games }
+  },
 
- [MUTATIONS.JOIN_GAME](state, id){
-   state.game = id
- }
+  [MUTATIONS.JOIN_GAME](state, id){
+    state.game = id
+  },
+
+  [MUTATIONS.REPLACE_MAP](state, { gameId, tilemap }){
+    state.availableGames[gameId].tilemap = tilemap
+  }
+}
+
+export const getters = {
+  game: state => state.availableGames[state.game] || {},
 }

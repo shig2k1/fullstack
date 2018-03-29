@@ -6,13 +6,10 @@ import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 
-export const LOBBY_EVENTS = {
-  SERVER_NEW_MESSAGE: 'SERVER_NEW_MESSAGE',
-  CLIENT_SENT_MESSAGE: 'CLIENT_SENT_MESSAGE'
-}
-
 const compiler = webpack(config)
 const app = express()
+
+import { LOBBY_EVENTS } from './enums/socketio-events'
 
 // web-server
 const _server = http.createServer(app)
@@ -25,16 +22,8 @@ global.io = require('socket.io')(_server.listen(3000, 'localhost', (err)=>{
 io.sockets.on('connection', socket => {
   console.log('a user connected')
 
-  // client has emitted message to server
-  socket.on(LOBBY_EVENTS.CLIENT_SENT_MESSAGE, ({ message, gameId })=>{
-    // broadcast to 
-    io.emit(`game-${gameId}`, {
-      event: LOBBY_EVENTS.SERVER_NEW_MESSAGE,
-      payload: {
-        message
-      }
-    })
-  })
+  // make socket available
+  global.socket = socket
 
   socket.on('disconnect', ()=>{
     console.log('a user disconnected')

@@ -1,5 +1,7 @@
 import uuid from 'uuid'
 
+import { LOBBY_EVENTS, GAME_EVENTS } from '../../enums/socketio-events'
+
 export const ACTIONS = {
   PLAYER_JOINED: 'PLAYER_JOINED',
   PLAYER_LEFT: 'PLAYER_LEFT'
@@ -20,6 +22,27 @@ function createTilemap(width, height){
     }
   }
   return map;
+}
+
+function registerGameSocket(){
+
+  // socket.io
+  socket.on(GAME_EVENTS.FLIP_CARD, ({ gameId, data}) => {
+    console.log('Hi there', gameId, data)
+  
+    const { x, y, isFlipped } = data
+    // update the tile in the map array
+    games[gameId].tilemap[y][x].flipped = isFlipped
+  
+    console.log(games[gameId].tilemap[y][x])
+  
+    // broadcast to 
+    io.emit(`game-${gameId}`, {
+      event: GAME_EVENTS.TILEMAP_UPDATED,
+      payload: games[gameId].tilemap
+    })
+  })
+
 }
 
 // Create a new game
@@ -44,6 +67,8 @@ export const create_game = (req, res) => {
     msg: 'New game added'
   })
 
+  registerGameSocket()
+
   res.json({ msg: 'game created', data: { game }})
 }
 
@@ -65,6 +90,8 @@ export const join_game = (req, res) => {
     games[id].players.push(playerId)
     io.emit(`game-${id}`, { action: ACTIONS.PLAYER_JOINED })
   }
+
+  registerGameSocket()
 
   res.json({ msg: 'player joined' })
 }

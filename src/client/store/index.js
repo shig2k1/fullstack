@@ -5,6 +5,7 @@ import localforage from 'localforage'
 
 import { state as game_state, 
          actions as game_actions, 
+         getters as game_getters,
          mutations as game_mutations
        } from './modules/game.store'
 
@@ -75,7 +76,7 @@ const mutations = {
 }
 
 const getters = {
-  
+  ...game_getters
 }
 
 export const store = new VueX.Store({
