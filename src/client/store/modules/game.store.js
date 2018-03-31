@@ -5,7 +5,10 @@ export const state = {
   game: null,
 
   // game environment state
-  availableGames: {}
+  availableGames: {},
+
+  // messages
+  messages: []
 }
 
 export const ACTIONS = {
@@ -18,19 +21,22 @@ export const ACTIONS = {
 export const MUTATIONS = {
   UPDATE_GAMES: 'UPDATE_GAMES',
   JOIN_GAME: 'JOIN_GAME',
-  REPLACE_MAP: 'REPLACE_MAP'
+  REPLACE_MAP: 'REPLACE_MAP',
+  ADD_MESSAGE: 'ADD_MESSAGE'
 }
 
 
 
 export const actions = {
-  [ACTIONS.CREATE_GAME]({ state, commit }, { name, rounds}){
+  [ACTIONS.CREATE_GAME]({ state, dispatch }, { name, rounds}){
     return new Promise((res, rej)=>{
       Vue.http.post('/api/game/create', { name, rounds, owner: state.player.id })
       .then(suc=>{
         let { id } = suc.body.data.game
-        commit(MUTATIONS.JOIN_GAME, id)
-        res(suc)
+        dispatch(ACTIONS.JOIN_GAME, { 
+          gameId: id,
+          playerId: state.player.id
+        })
       }, 
       err=>rej(err))
     })
@@ -54,8 +60,10 @@ export const actions = {
     return new Promise((res, rej)=>{
       Vue.http.post(`/api/game/join/${gameId}`, { playerId })
       .then(suc=>{
+        console.log('suc', suc)
+        let { game } = suc.body.data
         console.log('joined the game!!!')
-        commit(MUTATIONS.JOIN_GAME, gameId)
+        commit(MUTATIONS.JOIN_GAME, game)
         res(suc)
       },
       err=>rej(err))
@@ -69,19 +77,27 @@ export const actions = {
 }
 
 export const mutations = {
-  [MUTATIONS.UPDATE_GAMES](state, games){
-    state.availableGames = { ...games }
+  [MUTATIONS.UPDATE_GAMES]( state, games ){
+    state.availableGames = [ ...games ]
   },
 
-  [MUTATIONS.JOIN_GAME](state, id){
-    state.game = id
+  [MUTATIONS.JOIN_GAME]( state, game ){
+    state.game = { ...game }
   },
 
-  [MUTATIONS.REPLACE_MAP](state, { gameId, tilemap }){
-    state.availableGames[gameId].tilemap = tilemap
+  [MUTATIONS.REPLACE_MAP]( state, { tilemap } ){
+    console.log('huh?')
+    state.game.tilemap = [ ...tilemap ]
+  },
+
+  [MUTATIONS.ADD_MESSAGE]( state, message ){
+    console.log('add new message', message)
+    state.messages.push(message)
   }
 }
 
 export const getters = {
-  game: state => state.availableGames[state.game] || {},
+  game: state => state.game || {},
+
+  messages: state => [ ...state.messages ]
 }

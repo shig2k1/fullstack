@@ -11,7 +11,8 @@ import { state as game_state,
 
 export const ACTIONS = {
   INIT_APP: 'INIT_APP',
-  CREATE_PLAYER: 'CREATE_PLAYER'
+  CREATE_PLAYER: 'CREATE_PLAYER',
+  LOAD_PLAYER: 'LOAD_PLAYER'
 }
 
 export const MUTATIONS = {
@@ -43,24 +44,45 @@ const actions = {
    */
   [ACTIONS.INIT_APP]({ state, dispatch, commit }){
     // look in localstorage for an existing player
-    localforage.getItem('player', (err, player)=>{
+    localforage.getItem('player', (err, player) => {
       if(player) {
-        commit(MUTATIONS.UPDATE_PLAYER, player)
+        // check server for existance of this player
+        dispatch(ACTIONS.LOAD_PLAYER, { playerId: player.id })
       } else {
         dispatch(ACTIONS.CREATE_PLAYER)
+      }
+    })
+    // look for a game in progress
+    localforage.getItem('current_game', (err, game) => {
+      if(game){
+
       }
     })
   },
   
   [ACTIONS.CREATE_PLAYER]({ state, commit }){
     Vue.http.post('/api/player/create')
-    .then(suc=>{
+    .then(suc => {
       console.log('success', suc)
       let { player } = suc.body.data
       localforage.setItem('player', player); 
       commit(MUTATIONS.UPDATE_PLAYER, player)
-    }, err=>{
+    }, err => {
       console.log('err', err)
+    })
+  },
+
+  [ACTIONS.LOAD_PLAYER]({ state, commit, dispatch }, { playerId }){
+    Vue.http.get(`/api/player/${playerId}`)
+    .then(suc => {
+      console.log('player does exist. loading')
+      let { player } = suc.body.data
+      localforage.setItem('player', player); 
+      commit(MUTATIONS.UPDATE_PLAYER, player)
+    }, err => {
+      // player doesn't exist - create instead
+      console.log(`player doesn't exist - creating`)
+      dispatch(ACTIONS.CREATE_PLAYER)
     })
   },
 
@@ -76,6 +98,8 @@ const mutations = {
 }
 
 const getters = {
+  player: state => state.player || {},
+
   ...game_getters
 }
 

@@ -1,6 +1,8 @@
 import uuid from 'uuid'
+import _ from 'lodash'
 
 import { LOBBY_EVENTS, GAME_EVENTS } from '../../enums/socketio-events'
+import { CARD_VARIATIONS as CV } from '../../enums/card-variations'
 
 export const ACTIONS = {
   PLAYER_JOINED: 'PLAYER_JOINED',
@@ -11,51 +13,67 @@ export const STATES = {
   WAITING_FOR_PLAYERS: 'WAITING_FOR_PLAYERS'
 }
 
-function createTilemap(width, height){
-  let map = [];
-  for(let i=0; i< height; i++){
-    map[i] = [];
-    for(let j=0; j< width; j++){
-      map[i][j] = {
-        flipped: false
-      }
-    }
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
   }
-  return map;
 }
 
-function registerGameSocket(){
+function createTilemap(noOfPairs){
 
-  // socket.io
-  socket.on(GAME_EVENTS.FLIP_CARD, ({ gameId, data}) => {
-    console.log('Hi there', gameId, data)
-  
-    const { x, y, isFlipped } = data
-    // update the tile in the map array
-    games[gameId].tilemap[y][x].flipped = isFlipped
-  
-    console.log(games[gameId].tilemap[y][x])
-  
-    // broadcast to 
-    io.emit(`game-${gameId}`, {
-      event: GAME_EVENTS.TILEMAP_UPDATED,
-      payload: games[gameId].tilemap
-    })
+  // there will be #{noOfPairs} of each color of card
+  // replace with pictures or whatever - this is just a test
+  let deck = []  
+  Object.keys(CV).forEach(color => {
+    for(let i = 0; i < noOfPairs; i++){
+      deck.push(color)
+    }
   })
+  
+  shuffleArray(deck)
+  // deck will be an even number. Get the square root and make a 
+  // grid that size
+  const rowLimit = Math.ceil(Math.sqrt(deck.length))
+  let grid = []
+  let row = []
+  /* 
+    Build an array of cards like this
+    . . . . . .
+    . . . . . .
+    . . . . . .
+    . . . . . .
+    . . . . 
+  */
+  for(let i = 0, j = 0; i < deck.length; i++, j++){
+    if(j == rowLimit){
+      grid.push(row)
+      row = []
+      j = 0
+    }
+    row.push({
+      flipped: false,
+      color: deck[i]
+    })
+    if(i === (deck.length - 1) && j > 0) grid.push(row)
+  }
 
+  return grid
 }
+
 
 // Create a new game
 export const create_game = (req, res) => {
-  let { name, rounds, owner } = req.body;
-  
-  let game = {
+  const { name, rounds, owner } = req.body;
+  const noOfPairs = 4
+
+  const game = {
     id: uuid(),
     name,
     rounds,
     owner,
-    players: [owner],
-    tilemap: createTilemap(10,10),
+    players: {},
+    tilemap: createTilemap(noOfPairs),
     state: STATES.WAITING_FOR_PLAYERS
   }
   
@@ -67,31 +85,41 @@ export const create_game = (req, res) => {
     msg: 'New game added'
   })
 
-  registerGameSocket()
-
   res.json({ msg: 'game created', data: { game }})
 }
 
 
 // game lobby
 
-// Return list of existing games
+// Return list of existing games - remove unnecessary bits
 export const list_games = (req, res) => {
-  res.json({ msg: 'games loaded', data: { games }})
+  res.json({ msg: 'games loaded', data: { 
+    games: Object.keys(games).map(game => ({
+      ..._.pick(games[game], ['id', 'name'])
+    }))
+  }})
 }
 
 
 // Join an existing game
 export const join_game = (req, res) => {
-  let { id } = req.params
-  let { playerId } = req.body
-  let game = games[id]
+  const { id } = req.params
+  const { playerId } = req.body
+  const game = games[id]
   if(game){
-    games[id].players.push(playerId)
+    // is the player already in this game
+    const player = games[id].players[playerId]
+    if(!player) games[id].players[playerId] = {
+      name: players[playerId].name,
+      score: 0
+    }
     io.emit(`game-${id}`, { action: ACTIONS.PLAYER_JOINED })
   }
 
-  registerGameSocket()
-
-  res.json({ msg: 'player joined' })
+  res.json({ 
+    msg: 'joined game', 
+    data: { 
+      game: game
+    } 
+  })
 }

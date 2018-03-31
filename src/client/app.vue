@@ -20,11 +20,11 @@ import gamesList from './components/games-list.vue'
 import gameLobby from './components/game-lobby.vue'
 
 export default {
+
   components: {
     gamesList,
     gameLobby
   },
-
 
   computed: {
     currentGame(){

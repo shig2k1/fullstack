@@ -9,7 +9,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 const compiler = webpack(config)
 const app = express()
 
-import { LOBBY_EVENTS } from './enums/socketio-events'
+import { LOBBY_EVENTS, GAME_EVENTS } from './enums/socketio-events'
 
 // web-server
 const _server = http.createServer(app)
@@ -22,9 +22,43 @@ global.io = require('socket.io')(_server.listen(3000, 'localhost', (err)=>{
 io.sockets.on('connection', socket => {
   console.log('a user connected')
 
+  // Message sent from lobby
+  socket.on(LOBBY_EVENTS.CLIENT_SENT_MESSAGE, ({ gameId, playerId, message })=>{
+    console.log('sent message', message)
+    const { name } = games[gameId].players[playerId]
+    const now = new Date().getTime()
+    const payload = {
+      playerId: playerId,
+      ts: now,
+      from: name,
+      message: message
+    } 
+    console.log('payload', payload)
+    // broadcast to 
+    io.emit(`game-${gameId}`, {
+      event: LOBBY_EVENTS.SERVER_NEW_MESSAGE,
+      payload: payload
+    })
+  })
+
+
   // make socket available
   global.socket = socket
 
+  // global socket is unrelable - register all events here
+  socket.on(GAME_EVENTS.FLIP_CARD, ({ gameId, data}) => {
+    const { x, y } = data
+    // update the tile in the map array
+    games[gameId].tilemap[y][x].flipped = !games[gameId].tilemap[y][x].flipped
+
+    // broadcast to 
+    io.emit(`game-${gameId}`, {
+      event: GAME_EVENTS.TILEMAP_UPDATED,
+      payload: games[gameId].tilemap
+    })
+  })
+
+  // user left
   socket.on('disconnect', ()=>{
     console.log('a user disconnected')
   })

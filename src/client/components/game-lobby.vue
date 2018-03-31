@@ -4,18 +4,6 @@
 
     div(slot="middle")
 
-      // output the game canvas
-      div(v-if="game.tilemap")
-        div.row(v-for="(row, i) in game.tilemap",
-        :key="`row_${i}`")
-
-          tile(v-for="(tile, j) in row",
-          :key="`tile_${i}_${j}`",
-          :flipped="tile.flipped",
-          :x="j", 
-          :y="i",
-          @flip="tileFlip")
-
       div(v-if="players.length < 2") Waiting for players
     
       div players
@@ -31,7 +19,9 @@
       v-btn(@click="sendMessage") Send Message
 
       ul
-        li(v-for="_message in messages") {{ _message }}
+        li(v-for="_message in messages") 
+          div.message {{ _message.message }}
+          div.sender {{ _message.from }} @ {{ formatDate(_message.ts) }}
 
     div(slot="bottom")
       v-btn(v-if="game.owner === $store.state.player.id",
@@ -41,10 +31,13 @@
 </template>
 
 <script>
-import pageLayout from "./page-layout.vue"
-import tile from './tile.vue'
-
 import { mapGetters } from 'vuex'
+
+// time/date formatting
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+TimeAgo.locale(en)
+const timeAgo = new TimeAgo('en-US')
 
 // state action
 import { ACTIONS, MUTATIONS } from "../store/modules/game.store"
@@ -52,89 +45,65 @@ import { ACTIONS, MUTATIONS } from "../store/modules/game.store"
 // socket.io actions
 import { LOBBY_EVENTS, GAME_EVENTS } from '../../enums/socketio-events'
 
+// components
+import pageLayout from "./page-layout.vue"
+import pairsGame from './pairs-game.vue'
+
 export default {
   components: {
     pageLayout,
-    tile
+    pairsGame
   },
 
   data: () => ({
-    message: "",
-    messages: []
+    message: ""
   }),
 
   computed: {
     ...mapGetters([
-      'game'
+      'game',
+      'messages',
+      'player'
     ]),
     players() {
       return [...(this.game.players || [])];
     }
   },
 
-  sockets: {
-    playerJoined() {
-      console.log("player joined!");
-    },
-    updateMessages(data) {
-      let { message } = data;
-      this.messages.push(message);
-    }
-  },
-
-  watch: {
-    game(nv) {
-      this.addWatcher();
-    }
-  },
-
   methods: {
     addWatcher() {
+      console.log('adding watcher')
+
       if (this.$options.sockets[`game-${this.game.id}`])
         delete this.$options.sockets[`game-${this.game.id}`];
       
       // respond to socket.io game events
       this.$options.sockets[`game-${this.game.id}`] = data => {
-
+        console.log('game event', data.event)
         switch(data.event){
-          // new message from a client
           case LOBBY_EVENTS.SERVER_NEW_MESSAGE:
-            this.messages.push(data.payload.message)
-            break;
-
-          // tile map updated
-          case GAME_EVENTS.TILEMAP_UPDATED: 
-            console.log('data', data.payload)
-            console.log('huh?')
-            
-            
-            
-            this.$store.dispatch(ACTIONS.UPDATE_MAP, { 
-              gameId: this.game.id,
-              tilemap: [ ...data.payload ]
-            })
-            break;
+          console.log('data', data.payload)
+          const message = data.payload
+          this.$store.commit( MUTATIONS.ADD_MESSAGE, message )
+          break;
         }
-      };
-    },
-
-    tileFlip({ x, y, isFlipped }){
-      this.$socket.emit(GAME_EVENTS.FLIP_CARD, {
-        gameId: this.game.id,
-        data: {
-          x,
-          y,
-          isFlipped
-        }
-      })
+      }
     },
 
     sendMessage() {
+      console.log('send', this.game.id, this.message, LOBBY_EVENTS.CLIENT_SENT_MESSAGE)
       this.$socket.emit(LOBBY_EVENTS.CLIENT_SENT_MESSAGE, {
         gameId: this.game.id,
+        playerId: this.player.id,
         message: this.message
       })
-      this.message = ''
+      this.$nextTick(() => {
+        this.message = ''
+      })
+    },
+
+    formatDate(ts){
+      return timeAgo.format(ts)
     }
   },
 
@@ -142,14 +111,9 @@ export default {
     // reload game data with new player
     this.$store.dispatch(ACTIONS.LOAD_GAMES);
 
-    // add a watcher for io events on this game
-    this.addWatcher();
-  },
-
-  beforeDestroy() {
-    // clean up socket watcher
-    if (this.game) delete this.$options.sockets[`game-${this.game.id}`];
+    // socket.io watcher for events
+    this.addWatcher()
   }
-};
+}
 </script>
 

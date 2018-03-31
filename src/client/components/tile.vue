@@ -1,11 +1,12 @@
 <template lang="pug">
-  div(:class="{ sideA: !flipped, sideB: flipped }",
+  div(:class="{ 'side-a':!flipped, 'side-b':flipped }",
   @click="clicked").tile
-    div.inner
+    div.inner(:class="tileClass")
 </template>
 
 <script>
 import { GAME_EVENTS } from '../../enums/socketio-events'
+import { CARD_VARIATIONS as CV } from '../../enums/card-variations'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -13,6 +14,10 @@ export default {
     flipped: {
       type: Boolean,
       default: false
+    },
+    color: {
+      type: String,
+      default: ''
     },
     x: {
       type: Number,
@@ -27,20 +32,16 @@ export default {
   computed: {
     ...mapGetters([
       'game'
-    ])
-  },
-
-  watch: {
-    flipped(nv){
-      console.log('flip!', nv)
+    ]),
+    tileClass(){
+      return `${ CV[this.color].toLowerCase() }`
     }
   },
-  
+
   methods: {
     clicked(){
-      const isFlipped = !this.flipped
       const { x, y } = this
-      this.$emit('flip', { x, y, isFlipped})
+      this.$emit('flip', { x, y })
     }
   }
 }
@@ -60,14 +61,14 @@ export default {
     width: $size;
     height: $size;
 
-    &.sideA {
+    &.side-a {
       background:$card-bg-a;
       div.inner {
         background: $side-a;
         cursor: pointer;
       }
     }
-    &.sideB {
+    &.side-b {
       background:$card-bg-b;
       div.inner {
         background: white;
