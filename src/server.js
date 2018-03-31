@@ -41,7 +41,6 @@ io.sockets.on('connection', socket => {
     })
   })
 
-
   // make socket available
   global.socket = socket
 
@@ -55,6 +54,14 @@ io.sockets.on('connection', socket => {
     io.emit(`game-${gameId}`, {
       event: GAME_EVENTS.TILEMAP_UPDATED,
       payload: games[gameId].tilemap
+    })
+  })
+
+  // start a game
+  socket.on(GAME_EVENTS.START_GAME, ({ gameId }) => {
+    // broadcast to 
+    io.emit(`game-${gameId}`, {
+      event: GAME_EVENTS.START_GAME
     })
   })
 

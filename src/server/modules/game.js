@@ -4,11 +4,6 @@ import _ from 'lodash'
 import { LOBBY_EVENTS, GAME_EVENTS } from '../../enums/socketio-events'
 import { CARD_VARIATIONS as CV } from '../../enums/card-variations'
 
-export const ACTIONS = {
-  PLAYER_JOINED: 'PLAYER_JOINED',
-  PLAYER_LEFT: 'PLAYER_LEFT'
-}
-
 export const STATES = {
   WAITING_FOR_PLAYERS: 'WAITING_FOR_PLAYERS'
 }
@@ -108,12 +103,20 @@ export const join_game = (req, res) => {
   const game = games[id]
   if(game){
     // is the player already in this game
-    const player = games[id].players[playerId]
-    if(!player) games[id].players[playerId] = {
-      name: players[playerId].name,
-      score: 0
-    }
-    io.emit(`game-${id}`, { action: ACTIONS.PLAYER_JOINED })
+    if(!games[id].players[playerId]){
+      const player = {
+        id: playerId,
+        name: players[playerId].name,
+        score: 0
+      }
+      games[id].players[playerId] = player
+      io.emit(`game-${id}`, { 
+        event: LOBBY_EVENTS.PLAYER_JOINED, 
+        payload:  {
+         player 
+        }
+      })
+    } 
   }
 
   res.json({ 

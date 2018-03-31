@@ -1,17 +1,23 @@
 <template lang="pug">
-  div
-    pre {{ tilemap }}
+  page-layout
+    div(slot="top")
+      h3 Lobby
+    
+    div(slot="middle")
+      pairs-game
+
+    div(slot="bottom")
+      p bottom
 </template>
 
 <script>
+import pageLayout from './page-layout.vue'
+import pairsGame from './pairs-game.vue'
+
 export default {
-  computed: {
-    game(){
-      return { ...this.$store.state.availableGames[this.$store.state.game] || {} }
-    },
-    tilemap(){
-      return [ ...this.game.tilemap ]
-    }
+  components: {
+    pageLayout,
+    pairsGame
   }
 }
 </script>

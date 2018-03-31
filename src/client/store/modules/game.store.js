@@ -1,6 +1,10 @@
 import Vue from 'vue'
+import { GAME_SCREENS } from '../../../enums/game-screens' 
 
 export const state = {
+  // game screen
+  screen: GAME_SCREENS.GAMES_LIST,
+
   // game id of current game
   game: null,
 
@@ -15,14 +19,18 @@ export const ACTIONS = {
   CREATE_GAME: 'CREATE_GAME',
   LOAD_GAMES: 'LOAD_GAMES',
   JOIN_GAME: 'JOIN_GAME',
-  UPDATE_MAP: 'UPDATE_MAP'
+  START_GAME: 'START_GAME',
+  UPDATE_MAP: 'UPDATE_MAP',
 }
 
 export const MUTATIONS = {
+  UPDATE_GAME_SCREEN: 'UPDATE_GAME_SCREEN',
   UPDATE_GAMES: 'UPDATE_GAMES',
   JOIN_GAME: 'JOIN_GAME',
   REPLACE_MAP: 'REPLACE_MAP',
-  ADD_MESSAGE: 'ADD_MESSAGE'
+  ADD_MESSAGE: 'ADD_MESSAGE',
+  ADD_PLAYER: 'ADD_PLAYER',
+  REMOVE_PLAYER: 'REMOVE_PLAYER'
 }
 
 
@@ -64,19 +72,29 @@ export const actions = {
         let { game } = suc.body.data
         console.log('joined the game!!!')
         commit(MUTATIONS.JOIN_GAME, game)
+        commit(MUTATIONS.UPDATE_GAME_SCREEN, GAME_SCREENS.GAME_LOBBY)
         res(suc)
       },
       err=>rej(err))
     })
   },
 
-  [ACTIONS.UPDATE_MAP]({ state, commit }, { gameId, tilemap } ){
+  [ACTIONS.START_GAME]({ state, commit }, { gameId }){
+    console.log('start the game :D')
+    Vue.http.post('')
+  },
+
+  [ACTIONS.UPDATE_MAP]({ state, commit }, { gameId, tilemap }){
     console.log('do it :p')
     commit(MUTATIONS.REPLACE_MAP, { gameId, tilemap })
   }
 }
 
 export const mutations = {
+  [MUTATIONS.UPDATE_GAME_SCREEN]( state, screen ){
+    state.screen = screen
+  },
+
   [MUTATIONS.UPDATE_GAMES]( state, games ){
     state.availableGames = [ ...games ]
   },
@@ -93,10 +111,23 @@ export const mutations = {
   [MUTATIONS.ADD_MESSAGE]( state, message ){
     console.log('add new message', message)
     state.messages.push(message)
+  },
+
+  [MUTATIONS.ADD_PLAYER]( state, { gameId, player } ){
+    state.game.players = {
+      ...state.game.players,
+      [player.id]: player
+    }
+  },
+
+  [MUTATIONS.REMOVE_PLAYER]( state, { gameId, playerId } ){
+    state.game[gameId].players = [ ..._.omit(state.game[gameId].players, playerId) ]
   }
 }
 
 export const getters = {
+  screen: state => state.screen,
+
   game: state => state.game || {},
 
   messages: state => [ ...state.messages ]

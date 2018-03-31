@@ -26,7 +26,8 @@
     div(slot="bottom")
       v-btn(v-if="game.owner === $store.state.player.id",
       block,
-      :disabled="players.length < 2") Start
+      :disabled="hasEnoughPlayers",
+      @click="startGame") Start
       
 </template>
 
@@ -48,6 +49,7 @@ import { LOBBY_EVENTS, GAME_EVENTS } from '../../enums/socketio-events'
 // components
 import pageLayout from "./page-layout.vue"
 import pairsGame from './pairs-game.vue'
+import { GAME_SCREENS } from '../../enums/game-screens';
 
 export default {
   components: {
@@ -67,6 +69,9 @@ export default {
     ]),
     players() {
       return [...(this.game.players || [])];
+    },
+    hasEnoughPlayers() {
+      return Object.keys(this.players).length > 1
     }
   },
 
@@ -82,10 +87,20 @@ export default {
         console.log('game event', data.event)
         switch(data.event){
           case LOBBY_EVENTS.SERVER_NEW_MESSAGE:
-          console.log('data', data.payload)
-          const message = data.payload
-          this.$store.commit( MUTATIONS.ADD_MESSAGE, message )
-          break;
+            console.log('data', data.payload)
+            const message = data.payload
+            this.$store.commit( MUTATIONS.ADD_MESSAGE, message )
+            break;
+
+          case LOBBY_EVENTS.PLAYER_JOINED: 
+            console.log('new player joined')
+            const { player } = data.payload
+            this.$store.commit( MUTATIONS.ADD_PLAYER, { gameId: this.game.id, player } )
+            break;
+
+          case GAME_EVENTS.START_GAME: 
+            this.$store.commit( MUTATIONS.UPDATE_GAME_SCREEN, GAME_SCREENS.GAME_PLAY )
+            break;
         }
       }
     },
@@ -99,6 +114,13 @@ export default {
       })
       this.$nextTick(() => {
         this.message = ''
+      })
+    },
+
+    startGame() {
+      //this.$store.dispatch( ACTIONS.START_GAME, { gameId: this.game.id } )
+      this.$socket.emit(GAME_EVENTS.START_GAME, {
+        gameId: this.game.id
       })
     },
 
