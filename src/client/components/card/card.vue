@@ -87,12 +87,12 @@
 					path.bacon-mid(d='M78.49,6.19a11.06,11.06,0,0,1-5.73-1.45,9.93,9.93,0,0,0-4.3-1.32c-.3,0-.63,0-1,0a9.89,9.89,0,0,0-5.27,1.35,11.06,11.06,0,0,1-5.73,1.45,11.06,11.06,0,0,1-5.73-1.45,9.92,9.92,0,0,0-5.27-1.35,10,10,0,0,0-5.28,1.35,11,11,0,0,1-5.72,1.45,11.06,11.06,0,0,1-5.73-1.45,9.89,9.89,0,0,0-5.27-1.35q-.51,0-1,0a9.89,9.89,0,0,0-4.31,1.32A11,11,0,0,1,12.5,6.19,11.06,11.06,0,0,1,6.77,4.74,9.92,9.92,0,0,0,1.5,3.39a.5.5,0,0,1-.5-.5.5.5,0,0,1,.5-.5A11.06,11.06,0,0,1,7.23,3.84,9.89,9.89,0,0,0,12.5,5.19a9.92,9.92,0,0,0,5.27-1.35,10.9,10.9,0,0,1,4.7-1.41c.32,0,.66,0,1,0a11.06,11.06,0,0,1,5.73,1.45,9.92,9.92,0,0,0,5.27,1.35,9.92,9.92,0,0,0,5.27-1.35,11.06,11.06,0,0,1,5.73-1.45,11,11,0,0,1,5.72,1.45,10,10,0,0,0,5.28,1.35,9.92,9.92,0,0,0,5.27-1.35,11.06,11.06,0,0,1,5.73-1.45c.37,0,.72,0,1.05,0a10.85,10.85,0,0,1,4.68,1.41,9.92,9.92,0,0,0,5.27,1.35,9.93,9.93,0,0,0,5.28-1.35A11.06,11.06,0,0,1,89.5,2.39a.5.5,0,0,1,.5.5.5.5,0,0,1-.5.5,10,10,0,0,0-5.28,1.35A11,11,0,0,1,78.49,6.19Z')
 					path.bacon-mid(d='M78.49,9a11,11,0,0,1-5.73-1.46,9.93,9.93,0,0,0-4.3-1.31c-.3,0-.63,0-1,0a10,10,0,0,0-5.27,1.34A11,11,0,0,1,56.49,9a11,11,0,0,1-5.73-1.46,10,10,0,0,0-5.27-1.34,10.06,10.06,0,0,0-5.28,1.34A10.88,10.88,0,0,1,34.49,9a11,11,0,0,1-5.73-1.46,10,10,0,0,0-5.27-1.34q-.51,0-1,0a10,10,0,0,0-4.31,1.31A10.88,10.88,0,0,1,12.5,9,11,11,0,0,1,6.77,7.51,10,10,0,0,0,1.5,6.17a.5.5,0,0,1,0-1A11.06,11.06,0,0,1,7.23,6.62,10,10,0,0,0,12.5,8a10,10,0,0,0,5.27-1.35,10.9,10.9,0,0,1,4.7-1.41c.32,0,.66,0,1,0a11.06,11.06,0,0,1,5.73,1.45A10,10,0,0,0,34.49,8a10,10,0,0,0,5.27-1.35,11.06,11.06,0,0,1,5.73-1.45,11,11,0,0,1,5.72,1.45A10,10,0,0,0,56.49,8a10,10,0,0,0,5.27-1.35,11.06,11.06,0,0,1,5.73-1.45c.37,0,.72,0,1.05,0a10.85,10.85,0,0,1,4.68,1.41A10,10,0,0,0,78.49,8a10,10,0,0,0,5.28-1.35A11.06,11.06,0,0,1,89.5,5.17a.5.5,0,0,1,0,1,10.06,10.06,0,0,0-5.28,1.34A10.89,10.89,0,0,1,78.49,9Z')
   
-				symbol#Ketchup(data-name='Ketchup', viewbox='0 0 81.4 9.52')
-					path.ketchup(d='M79.45.34,60.58.26h0L2,0H2A2,2,0,0,0,0,2,2,2,0,0,0,1.94,4L6.73,4v3.5a2,2,0,1,0,3.9,0V4l8.79,0v1.8a2,2,0,1,0,3.9,0V4.09l18.38.09V6.77a2,2,0,1,0,3.91,0V4.19l13,.06v.53a2,2,0,1,0,3.91,0V4.27l5,0V6.66a2,2,0,1,0,3.9,0V4.31l8,0h0a2,2,0,0,0,2-2A2,2,0,0,0,79.45.34Z')
-				
-				symbol#Mustard(data-name='Mustard', viewbox='0 0 82.95 8.53')
-					path.mustard(d='M81,.35,2,0H2A2,2,0,0,0,0,2,2,2,0,0,0,1.94,4L8.69,4v2.5a2,2,0,1,0,3.9,0V4.05l47.85.21V6.53a2,2,0,1,0,3.91,0V4.28h3.91v.24a2,2,0,1,0,3.9,0V4.31l8.83,0h0a2,2,0,0,0,2-2A2,2,0,0,0,81,.35Z')
-				
+				symbol#Ketchup(data-name='Ketchup')
+					path.ketchup(d='M83.3.22,2,0H2A2,2,0,0,0,2,4H4.2V4.6A2,2,0,0,0,6.14,6.65h.05a2,2,0,0,0,2-1.95V4h6.07V7.37a2,2,0,0,0,4,0V4l5.93,0v.56a2,2,0,0,0,1.95,2h.05a2,2,0,0,0,2-1.95V4.07l36,.1v.47a2,2,0,0,0,2,2.05h0a2,2,0,0,0,2-1.95V4.18h6.07V6.41a2,2,0,0,0,4,0V4.2l5,0h0a2,2,0,1,0,0-4Z')
+
+				symbol#Mustard(data-name='Mustard')
+					path.mustard(d='M130.86,122.87H49.56a2,2,0,0,0,0,4H56.5V128a2,2,0,0,0,4,0v-1.13H71.7A2,2,0,0,0,73.5,128a2,2,0,0,0,1.79-1.13H102.7a2,2,0,0,0,1.8,1.13,2,2,0,0,0,1.79-1.13H116.5V128a2,2,0,0,0,4,0v-1.13h2V128a2,2,0,0,0,4,0v-1.13h4.36a2,2,0,0,0,0-4Z', transform='translate(-47.56 -122.87)')
+
 				symbol#Onion_Ring(data-name='Onion Ring', viewbox='0 0 32.38 13.22')
 					path.onion-ring-mid(d='M74.39,127.87c.34.32.78.64.5.91-.44.42-2.38.47-3.19.79s-.92,1.07-2,1.25-2.48-.31-3.68-.3-2.63.5-3.67.34-1.2-.92-2-1.23-2.75-.35-3.21-.76c-.3-.29.23-.65.57-1H52.17c.52.51,1.84.95,2.36,1.43.68.63.34,1.54,1.57,2s3.57.32,5.19.57,3,1,4.76,1,3.19-.76,4.75-1,4-.15,5.18-.63.86-1.39,1.53-2c.47-.44,1.6-.85,2.19-1.31Z', transform='translate(-52.17 -127.87)')
 					path.onion-ring-shadow(d='M78.75,127.87a10.16,10.16,0,0,0-1.72,1c-.66.63-.31,1.54-1.53,2s-3.56.36-5.18.63-2.95,1-4.75,1-3.2-.73-4.76-1-3.68-.13-5-.5a1.93,1.93,0,0,0,.43.23c1.23.47,3.57.32,5.19.57s3,1,4.77,1,3.19-.76,4.75-1,4-.15,5.18-.63.86-1.39,1.53-2c.47-.44,1.6-.85,2.18-1.31Z', transform='translate(-52.17 -127.87)')
@@ -115,56 +115,35 @@
 				// border
 				path.bg-border(d="M176,4V248H4V4H176m4-4H0V252H180V0Z")
 
-			// cost area
-			rect#bg-cost(
-				:x="cost.x",
-				:y="cost.y",
-				:width="cost.width",
-				:height="cost.height"
-			)
-
 			// title
 			g#title
 				path#bg(d="M161.83,45.63H18.76a5.58,5.58,0,0,1-5.57-5.58V18a5.58,5.58,0,0,1,5.57-5.57H161.83A5.58,5.58,0,0,1,167.4,18v22A5.58,5.58,0,0,1,161.83,45.63Z")
 				text.title(x="50%" y="28",
 				alignment-baseline="middle",
-				:width="cost.width",
+				:width="180",
 				text-anchor="middle") {{ name }}
 
-			
-			
-			use(width='83.88', height='30', transform='matrix(1, 0, 0, -1, 2, 30)', xlink:href='#Burger_Bun_Top')
+			// burger
+			burger(:model="burger")
 
-			use(width='84.46', height='8.15', transform='matrix(1, 0, 0, -1, 2, 48)', xlink:href='#Burger_Bun_Middle')
-
-			use(width='84.46', height='9', transform='matrix(1, 0, 0, 1, 2, 55)', xlink:href='#Burger_Bun_Bottom')
-
-			use(width='88', height='9.78', transform='matrix(1, 0, 0, 1, 0, 60)', xlink:href='#Burger_Patty')
-
-			use(width='83.88', height='30', transform='matrix(1, 0, 0, 1, 10, 30)', xlink:href='#Fried_Egg')
-			
-			use(width='59.4', height='7.7', transform='translate(14 60)', xlink:href='#Cheese')
-			
-			use(width='93', height='21.69', transform='translate(4 40)', xlink:href='#Salad')
-			
-			use(width='32.38', height='12.66', transform='translate(10 54.5)', xlink:href='#Gerkin')
-			
-			use(width='91', height='11.51', transform='translate(4 70)  scale(0.91 1)', xlink:href='#Bacon')
-			
-			use(width='32.38', height='13.22', transform='translate(50 60)', xlink:href='#Onion_Ring')
-			
-			use(width='81.4', height='9.52', transform='translate(19.59 93.05)', xlink:href='#Ketchup')
-			
-			use(width='82.95', height='8.53', transform='translate(18.52 101.28)', xlink:href='#Mustard')
-
-		
+			// ingredients list (cost)
+			ingredients-list(:model="burger")
 </template>
 
 <script>
-import { CARD_DIMENSIONS, TIER_COLOURS, COLOURS } from '../assets/data/'
-import { TIERS } from '../assets/data/assets';
+import { CARD_DIMENSIONS, TIER_COLOURS, COLOURS } from '../../assets/data/'
+import { TIERS } from '../../assets/data';
+
+import Burger from './burger.vue'
+import IngredientsList from './ingredients-list.vue'
+import { burger } from '../../assets/data/models'
 
 export default {
+	components: {
+		Burger,
+		IngredientsList
+	},
+
 	props: {
 		tier: {
 			type: Number,
@@ -178,22 +157,15 @@ export default {
 	},
 
 	data: () => {
-		const costArea = {
-			x: CARD_DIMENSIONS.BORDER_SIZE,
-			y: (CARD_DIMENSIONS.HEIGHT - (CARD_DIMENSIONS.BORDER_SIZE / 2)) - CARD_DIMENSIONS.COST_AREA_HEIGHT,
-			width: CARD_DIMENSIONS.WIDTH - (CARD_DIMENSIONS.BORDER_SIZE * 2),
-			height: CARD_DIMENSIONS.COST_AREA_HEIGHT
-		}
-
 		return {
 			width: CARD_DIMENSIONS.V_WIDTH,
 			height: CARD_DIMENSIONS.V_HEIGHT,
 
 			patternSize: CARD_DIMENSIONS.REAR_PATTERN_SIZE,
 
-			cost: costArea,
+			bgPattern: [],
 
-			bgPattern: []
+			burger
 		}
 	},
 
@@ -268,8 +240,6 @@ export default {
 			.mustard { fill:${COLOURS.MUSTARD}; }
 
 			</style>
-
-			
 			`
 		},
 		backgroundClass(){

@@ -1,8 +1,8 @@
 import { TIERS } from './assets'
 
 export const CARD_DIMENSIONS = {
-	V_WIDTH: 360,
-	V_WIDTH: 500,
+	V_WIDTH: 160,
+	V_WIDTH: 250,
 	
 	WIDTH: 180,
 	HEIGHT: 250,

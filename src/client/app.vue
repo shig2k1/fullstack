@@ -14,7 +14,7 @@
 
 <script>
 
-import Card from './components/card.vue'
+import Card from './components/card/card.vue'
 
 export default {
 
