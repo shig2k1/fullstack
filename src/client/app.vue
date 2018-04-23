@@ -1,52 +1,33 @@
 <template lang="pug">
   v-app
-    v-layout(row)
-      v-flex
-        pre {{ $store.state }}
-      v-flex
-        div.layout
-          // available games listing
-          games-list(v-if="screen === GAME_SCREENS.GAMES_LIST")
-          // game lobby
-          game-lobby(v-else-if="screen === GAME_SCREENS.GAME_LOBBY")
-          // game screen
-          game-screen(v-else-if="screen === GAME_SCREENS.GAME_PLAY")
+    v-layout
+      card(name="Hamburger", 
+      :tier="0")
+      //card(name="Cheeseburger", 
+      //:tier="1")
+      //card(name="Bacon double cheeseburger", 
+      //:tier="2")
+      //card(name="Heart attack burger", 
+      //:tier="3")
 
 </template>
 
 <script>
 
-import { mapGetters } from 'vuex'
-
-import { GAME_SCREENS } from '../enums/game-screens' 
-import { ACTIONS } from './store'
-
-import gamesList from './components/games-list.vue'
-import gameLobby from './components/game-lobby.vue'
-import gameScreen from './components/game-screen.vue'
+import Card from './components/card.vue'
 
 export default {
 
   components: {
-    gamesList,
-    gameLobby,
-    gameScreen
+    Card
   },
 
   data: () => ({
-    GAME_SCREENS: GAME_SCREENS
+    
   }),
 
   computed: {
-    ...mapGetters([
-      'screen'
-    ]),
-
-    currentGame(){
-      return this.$store.state.game ? 
-        this.$store.state.availableGames[this.$store.state.game] : 
-        null
-    }
+    
   },
 
   methods: {
@@ -54,8 +35,6 @@ export default {
   },
 
   beforeCreate(){
-    // create or load a player
-    this.$store.dispatch(ACTIONS.INIT_APP)
   }
 }
 </script>
