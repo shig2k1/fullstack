@@ -80,6 +80,28 @@ export const burger = {
   ]
 }
 
+export const cheeseburger = {
+  name: 'cheeseburger',
+  layers: [
+    {
+      ingredients: [
+        BI.BUN_TOP
+      ]
+    },
+    {
+      ingredients: [
+        BI.PATTY,
+        BI.CHEESE
+      ]
+    },
+    {
+      ingredients: [
+        BI.BUN_BOTTOM
+      ]
+    }
+  ]
+}
+
 // burger structure
 
 // --- bun top    --- //

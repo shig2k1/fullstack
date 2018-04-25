@@ -2,9 +2,11 @@
   v-app
     v-layout
       card(name="Hamburger", 
-      :tier="0")
-      //card(name="Cheeseburger", 
-      //:tier="1")
+      :tier="0",
+      :model="burger")
+      card(name="Cheeseburger", 
+      :tier="1",
+      :model="cheeseburger")
       //card(name="Bacon double cheeseburger", 
       //:tier="2")
       //card(name="Heart attack burger", 
@@ -16,6 +18,8 @@
 
 import Card from './components/card/card.vue'
 
+import { burger, cheeseburger } from './assets/data/models'
+
 export default {
 
   components: {
@@ -23,7 +27,8 @@ export default {
   },
 
   data: () => ({
-    
+    burger,
+    cheeseburger
   }),
 
   computed: {

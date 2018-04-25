@@ -13,6 +13,7 @@ export const COLOURS = {
 	BUN_SHADOW: '#b05217',
 	PATTY_MID: '#603914',
 	PATTY_SHADOW: '#412413',
+	PATTY_HIGHLIGHT: '#76441f',
 	FRIED_EGG_WHITE: '#FFF',
 	FRIED_EGG_YOLK_MID: '#f9b03d',
 	FRIED_EGG_YOLK_SHADOW: '#ef941d',
@@ -31,6 +32,7 @@ export const COLOURS = {
 	KETCHUP: '#e52821',
 	MUSTARD: '#fbb03b'
 }
+
 
 export const TIER_COLOURS = {
 	[TIERS.T0]: {
@@ -68,6 +70,9 @@ export const BURGER_INGREDIENTS = {
 }
 
 export const CARD_BURGER_INGREDIENTS_DESCRIPTIONS = {
+	[BURGER_INGREDIENTS.BUN_UNSLICED]: {
+		icon: 'Icon_Burger_Bun'
+	},
 	[BURGER_INGREDIENTS.BUN_TOP]: {
 		id: 'Burger_Bun_Top',
 		width: 83.88,
@@ -78,6 +83,7 @@ export const CARD_BURGER_INGREDIENTS_DESCRIPTIONS = {
 		id: 'Burger_Bun_Middle',
 		width: 84.46,
 		height: 8.15,
+		transform: 'matrix(1, 0, 0, -1, 0, 8.1)',
 		x:2
 	},
 	[BURGER_INGREDIENTS.BUN_BOTTOM]: {
@@ -88,52 +94,62 @@ export const CARD_BURGER_INGREDIENTS_DESCRIPTIONS = {
 	},
 	[BURGER_INGREDIENTS.PATTY]: {
 		id: 'Burger_Patty',
+		icon: 'Icon_Patty',
 		width: 88,
 		height: 9.78,
 	},
 	[BURGER_INGREDIENTS.FRIED_EGG]: {
 		id: 'Fried_Egg',
+		icon: 'Icon_Fried_Egg',
 		width: 83.88,
 		height: 9,
 		x: 10
 	},
 	[BURGER_INGREDIENTS.CHEESE]: {
 		id: 'Cheese',
+		icon: 'Icon_Cheese',
 		width: 59.4,
 		height: 7.7,
 		x: 15
 	},
 	[BURGER_INGREDIENTS.SALAD]: {
 		id: 'Salad',
+		icon: 'Icon_Salad',
 		width: 93,
 		height: 9,
 		x: 5
 	},
 	[BURGER_INGREDIENTS.GERKIN]: {
 		id: 'Gerkin',
+		icon: 'Icon_Gerkin',
 		width: 32.38,
 		height: 5,
 		transform: 'translate(0 -5)'
 	},
 	[BURGER_INGREDIENTS.ONION_RING]: {
 		id: 'Onion_Ring',
+		icon: 'Icon_Onion_Ring',
 		width: 32.38,
 		height: 5,
+		x: 4
 	},
 	[BURGER_INGREDIENTS.BACON]: {
 		id: 'Bacon',
+		icon: 'Icon_Bacon',
 		width: 91,
 		height: 10,
 		transform: 'scale(0.96, 1)'
 	},
 	[BURGER_INGREDIENTS.KETCHUP]: {
 		id: 'Ketchup',
+		icon: 'Icon_Ketchup',
 		width: 92.4,
 		height: 9.52,
 		x: 2
 	},
 	[BURGER_INGREDIENTS.MUSTARD]: {
 		id: 'Mustard',
+		icon: 'Icon_Mustard',
 		width: 92.4,
 		height: 9.52,
 		x: 2
